@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.2 -->
+    <script>
+        window.materialVersion = "1.5.2"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source"/>
+
+
+    <link rel="dns-prefetch" href="https://cdn1.lncld.net"/>
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            小程序局域网控制ESP32（物联网芯片） | 
+        
+        三白
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/phone/img/favicon.png">
+    <link rel="icon" href="/phone/img/favicon.png">
+
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" itemprop="description" content="硬件">
+    <meta name="keywords" content=",ESP32,物联网,微信小程序">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/phone/img/bg.png);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","https://code.jquery.com/jquery-2.2.0.js", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="三白">
+    <meta name="msapplication-starturl" content="https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="三白">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/phone/img/favicon.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="小程序局域网控制ESP32（物联网芯片） | 三白">
+    <meta property="og:image" content="/phone/img/favicon.png">
+    <meta property="og:description" content="硬件">
+    <meta property="og:article:tag" content="ESP32"> <meta property="og:article:tag" content="物联网"> <meta property="og:article:tag" content="微信小程序"> 
+
+    
+        <meta property="article:published_time" content="Wed Dec 16 2020 22:57:10 GMT+0800">
+        <meta property="article:modified_time" content="Sat Oct 09 2021 08:05:23 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html",
+    "headline": "小程序局域网控制ESP32（物联网芯片）",
+    "datePublished": "Wed Dec 16 2020 22:57:10 GMT+0800",
+    "dateModified": "Sat Oct 09 2021 08:05:23 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "三白",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "Hi,Nice to meet you,Wellcome!"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "三白",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",ESP32,物联网,微信小程序",
+    "description": "硬件",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+<!--     
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="post-toc-number">1.</span> <span class="post-toc-text">微信小程序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ESP32-%E4%BB%A3%E7%A0%81"><span class="post-toc-number">2.</span> <span class="post-toc-text">ESP32 代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B5%8B%E8%AF%95%E8%A7%86%E5%B1%8F"><span class="post-toc-number">3.</span> <span class="post-toc-text">测试视屏</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://hp-l.gitee.io/img/headimg/headimg_7.png)">
+    
+            <p class="article-headline-p">
+                小程序局域网控制ESP32（物联网芯片）
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/phone/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>三白</strong>
+        <span>12月 16, 2020</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAAE+CAAAAAAxUyPsAAAEyUlEQVR42u3aQXbDNhAD0Nz/0u0B2sTAQHHd9muVF1si+bnwEKOvP1zD9YUAHz58+Fz48OHD58KH71/C9xVf39313XP+ZuD4rvabP9/11zlMa8eHDx8+fPhmvhc/1fHC2o35+ZvJBiSfJvTJ2vHhw4cPH75n+fLi4Pb3i2kNRU+LeFs7Pnz48OHD9wl8xcBDEbPECrf4AB8+fPjw4fsEvluZcgPNQ/lkbnkUgg8fPnz48L2HL1/27dP82J8f8pdQ/h/odeDDhw8fPnzlS1r/vb/f+n4fPnz48OH73/O111NFzHL4/40CpRDAhw8fPnz4Br722Jwf2pMl1UVDDL08/8Wm4sOHDx8+fDPfbcF5eZGM2P4/WfAtCqkLF3z48OHDh+/Et6AkQcBS0OR35YVXOzo+fPjw4cP3Hr58irfm9IJ4++YtEMGHDx8+fPh2vtuP9y24zw/57XPylnzy6Ytx8eHDhw8fvpmvJcuDg1vr+nbvU6VY0SbHhw8fPnz4Sr78IP1UFP5U+ZIDLZFBEdbjw4cPHz58ZWSQly97TN+2vXPofPNujXl8+PDhw4dv4Wsj9RarRb+VMm2hM71+hw8fPnz48A18e0CQTzHfjD1Yv73WdnxBDR8+fPjw4Tvx3QLx9gntK2J5A7stnvL548OHDx8+fE/x5aF8HhDkIcIeoLev0y0vtOHDhw8fPnxP8bU/5+0Ul7Z6spFLiJ/MEB8+fPjw4XuKry1Nbg3pPdDPR8y3ti3a8OHDhw8fvp0vX3xelOylRttQz4uVfF3fPg0fPnz48OEb+JJSI29d3xrYyVht6bO0+YuwHh8+fPjw4TvxLa3uW/R/C+7bRnvbJEjiA3z48OHDh2/hq1/PGl4jayfdRgC/MRY+fPjw4cP3LF8bnedL2jluzeynnl+E9fjw4cOHD9+JLz/wt6F8zt0WTznlrZV+TFzw4cOHDx++OaxvUfbAvY3dl5fqknHx4cOHDx++ne/WKm7j+7bcSQqXpTGQFDFFrwMfPnz48OE78e2gSxSeN+Dzcqe9K3oyPnz48OHDN/C1Bcqzx/U2gMi3vN2Gx15Qw4cPHz58+E5n3p8Hzv/TkuVblRdb+Voibnz48OHDh2/maxffhuxLAXELF24bjw8fPnz48L2Hr53Krc38eyF+W5q0Y+HDhw8fPnxP8eVt5ry4ySfUUt5m8vA38eHDhw8fvof48iKgbaXnUcKtSd82yNsV4cOHDx8+fO/kS4qSZOAlUEgO8+2sHo4M8OHDhw8fviFtzmPuPBS4hRE/b9jSAMifjA8fPnz48P0GX1sQtKF8+5y2DbCEC8Vm4MOHDx8+fANfC7cH+rdn3oqYvBVRzAEfPnz48OEb+NorgV4ChVtbvS1KpnYFPnz48OHDN/Adf7znpvW+4BeReln6FFuIDx8+fPjwzXz58b5tP7ex+1Nlyi0WiZ6GDx8+fPjwPcTXhu9LWN8WT0+1uvNR8OHDhw8fvs/hSwZr44afv5mH+O3/85Xiw4cPHz58n8CXxAdtaL4UKPlsj+0BfPjw4cOH7yG+PKx/6oiexOj5tu1MU+GCDx8+fPjwxXxtXH5b/K0Nv5cgbTT/omjDhw8fPnz4Bj5XvdkI8OHDh8+FDx8+fC58+D73+hP2hezTUBoUNwAAAABJRU5ErkJggg==">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-none-link" href="/phone/tags/ESP32/" rel="tag">ESP32</a></li><li class="mdl-menu__item"><a class="post_tag-none-link" href="/phone/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li><li class="mdl-menu__item"><a class="post_tag-none-link" href="/phone/tags/%E7%89%A9%E8%81%94%E7%BD%91/" rel="tag">物联网</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=小程序局域网控制ESP32（物联网芯片）&url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html&pic=https://hp-l.gitee.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=小程序局域网控制ESP32（物联网芯片）&url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html&via=三白" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+        <a class="post_share-link" href="https://www.linkedin.com/shareArticle?mini=true&url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html&title=小程序局域网控制ESP32（物联网芯片）" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 LinkedIn
+            </li>
+        </a>
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=三白&title=小程序局域网控制ESP32（物联网芯片）&summary=硬件&pics=https://hp-l.gitee.io/img/favicon.png&url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+        <a class="post_share-link" href="https://telegram.me/share/url?url=https://hp-l.gitee.io/phone/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/index.html&text=小程序局域网控制ESP32（物联网芯片）" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Telegram
+            </li>
+        </a>
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="微信小程序"><a href="#微信小程序" class="headerlink" title="微信小程序"></a>微信小程序</h2><!-- 代码Gitee仓库 -->
+
+<p>体验版二维码。<br><img src="https://7.dusays.com/2020/12/16/46f7f2a73970e.jpg" alt="体验版二维码"><br>线上版二维码。</p>
+<img class=".&#x2F;wechar.jpg, width&#x3D;200px, bg&#x3D;#f4f4f4, alt&#x3D;线上版二维码">
+<p><img src="./wechar.jpg" alt="jpg"></p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/HP-L/esp32_-we-char_-connect">https://gitee.com/HP-L/esp32_-we-char_-connect</a></p>
+<h2 id="ESP32-代码"><a href="#ESP32-代码" class="headerlink" title="ESP32 代码"></a>ESP32 代码</h2><pre><code class="python">from machine import Timer,Pin,RTC #调用GPIO口调用定时器库
+import socket
+from emp_wifi import Wifi
+import time
+import esp32
+import usocket
+# from machine import Pin, SPI, UART,I2C
+
+# 爬虫使用库
+import socket,re,sys,os
+import urequests as request
+
+
+hea = &#123;&#39;User-Agent&#39;:&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36&#39;&#125;
+rtc = RTC()
+
+port = 10000  #端口号
+listenSocket = None  #套接字
+
+import network
+wifi = network.WLAN(network.STA_IF)
+wifi.active(True)
+
+A = Pin(17, Pin.OUT, value=0)
+B = Pin(12, Pin.OUT, value=1)
+C = Pin(14, Pin.OUT, value=1)
+D = Pin(27, Pin.OUT, value=1)
+E = Pin(26, Pin.OUT, value=1)
+F = Pin(25, Pin.OUT, value=1)
+G = Pin(33, Pin.OUT, value=1)
+
+# 爬时间
+def get_time_pa():
+    time_api_url = &quot;&quot;&quot;http://quan.suning.com/getSysTime.do&quot;&quot;&quot;
+    r = request.get(time_api_url, headers = hea)
+    content = r.text
+    print(&#39;爬取时间...&#39;)
+    time = re.search(
+        r&#39;&#123;&quot;sysTime2&quot;:&quot;(.*?)-(.*?)-(.*?) (.*?):(.*?):(.*?)&quot;,&quot;sysTime1&quot;:&quot;&#39;, content
+        )
+    print(r.text[13:29])
+    print(int(r.text[27:29]))
+    print(int(r.text[23:26]))
+    mm = int(r.text[27:29])# 分钟
+    hh = int(r.text[23:26])# 小时
+    rtc = RTC()
+    time_date = rtc.datetime()
+    print(&#39;重置时间！&#39;)
+    rtc.datetime((time_date[0], time_date[1], time_date[2], time_date[3], hh, mm, time_date[6], time_date[7]))
+    rtc.datetime()
+
+#自动联网
+def wifi_connect():
+  wifi_led=Pin(12,Pin.OUT)             # 板载指示灯初始化    MODE1左边
+  wlan = network.WLAN(network.STA_IF)  # 以工作站 (wlan) 模式运行，需要创建一个工作站Wi-Fi接口的实例
+  wlan.active(True)                    # 在工作站对象上调用激活方法并以True作为输入值传递来激活网络接口
+  start_time=time.time()               # 记录开始时间
+
+  if not wlan.isconnected():              # 如果尚未联网成功
+    print(&quot;当前无线未联网，正在连接中....&quot;)
+#     wlan.connect(&quot;WiFi名称&quot;, &quot;密码&quot;)   # 无线网SSID、密码，开始联网
+    wlan.connect(&#39;&#39;,&#39;&#39;)   # 无线网SSID、密码，开始联网
+    while not wlan.isconnected():         # 如果还未连接成功，则LED灯闪烁提示
+      wifi_led.value(1)
+      time.sleep_ms(1000)
+      wifi_led.value(1)
+      time.sleep_ms(1000)
+      print(&quot;正在尝试连接到wifi....&quot;)
+      print(time.time())
+      if time.time()-start_time&gt;15:       # 如果超过15秒还不行，就退出
+        print(&quot;连接失败!!!无线网连接超过15秒，请检查无线网名称和密码是否正确..&quot;)
+        break
+
+  if wlan.isconnected():                  # 如果联接成功
+    wifi_led.value(1)                     # LED灯常亮
+    IP_info=wlan.ifconfig()
+    print(&quot;##################################################&quot;)
+    print(&quot;无线网已经连接，信息如下：&quot;)
+    print(&quot;IP地址：&quot;+IP_info[0])
+    print(&quot;子网掩码：&quot;+IP_info[1])
+    print(&quot;网关：&quot;+IP_info[2])
+    print(&quot;DNS：&quot;+IP_info[3])
+    print(&quot;##################################################&quot;)
+    get_time_pa()
+
+
+# 获取芯片温度
+# def wendu():
+#     f = esp32.raw_temperature()
+#     c = (f-32)/1.8
+#     print(c)
+#     oled.text(&quot;IC:&quot; + str(int(c)),20,0)
+
+# 远程连接传输命令函数
+def connect_to_phone():
+    try:
+        ip = Wifi.ifconfig()[0][0]   #获取IP地址
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   #设置套接字
+        sockaddr = socket.getaddrinfo(ip, port)
+        print(sockaddr[0][4])
+        s.bind(sockaddr[0][4])
+        print (&#39;tcp waiting...&#39;)
+        while True:
+            data, addr = s.recvfrom(1024)
+            print(&#39;From %s %s&#39; % addr)
+            print(&#39;data is %s&#39; % data)
+            data_utf8 = bytes.decode(data)
+            print(data_utf8)
+            if data_utf8 == &quot;led_1_on&quot;:
+                B.value(0)
+            if data_utf8 == &quot;led_2_on&quot;:
+                C.value(0)
+            if data_utf8 == &quot;led_1_off&quot;:
+                B.value(1)
+            if data_utf8 == &quot;led_2_off&quot;:
+                C.value(1)
+            if data_utf8 == &quot;led_3_on&quot;:
+                D.value(0)
+            if data_utf8 == &quot;led_4_on&quot;:
+                E.value(0)
+            if data_utf8 == &quot;led_3_off&quot;:
+                D.value(1)
+            if data_utf8 == &quot;led_4_off&quot;:
+                E.value(1)
+            if data_utf8 == &quot;led_5_on&quot;:
+                F.value(0)
+            if data_utf8 == &quot;led_6_on&quot;:
+                G.value(0)
+            if data_utf8 == &quot;led_5_off&quot;:
+                F.value(1)
+            if data_utf8 == &quot;led_6_off&quot;:
+                G.value(1)
+    except:
+        if(listenSocket):   #判断套接字是否为空
+            listenSocket.close()   #关闭套接字
+
+wifi_connect()
+connect_to_phone()
+</code></pre>
+<p>本程序可连接 OLED1306 也可不连接 OLED1306，不会因为未连接显示屏报错。<br>可直接将 OLED1306 与 ESP32 连接，若不显示，原因可能是接线不稳，接触不良。<br>注意：本程序使用的时 I2C 通讯！！！硬件连接时，I2C必须接上高电平，下面程序是方便面包板使用者使用的程序。</p>
+<pre><code class="python">from machine import Timer,Pin,RTC #调用GPIO口调用定时器库
+import socket
+from emp_wifi import Wifi
+import time
+import esp32
+import usocket
+
+# 爬虫使用库
+import socket,re,sys,os
+import urequests as request
+
+# 显示屏使用库
+import machine, ssd1306, gfx
+
+hea = &#123;&#39;User-Agent&#39;:&#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36&#39;&#125;
+rtc = RTC()
+
+port = 10000  #端口号
+listenSocket = None  #套接字
+
+import network
+
+WIFI = Pin(17, Pin.OUT, value=0)
+LED_1 = Pin(12, Pin.OUT, value=1)
+LED_2 = Pin(14, Pin.OUT, value=1)
+LED_3 = Pin(27, Pin.OUT, value=1)
+LED_4 = Pin(26, Pin.OUT, value=1)
+LED_5 = Pin(25, Pin.OUT, value=1)
+LED_6 = Pin(33, Pin.OUT, value=1)
+LED_7 = Pin(32, Pin.OUT, value=1)
+L3 = Pin(13, Pin.OUT, value=1)
+
+
+# 爬时间
+def get_time_pa():
+    time_api_url = &quot;&quot;&quot;http://quan.suning.com/getSysTime.do&quot;&quot;&quot;
+    r = request.get(time_api_url, headers = hea)
+    content = r.text
+    print(&#39;爬取时间...&#39;)
+    time = re.search(
+        r&#39;&#123;&quot;sysTime2&quot;:&quot;(.*?)-(.*?)-(.*?) (.*?):(.*?):(.*?)&quot;,&quot;sysTime1&quot;:&quot;&#39;, content
+        )
+    print(r.text[13:29])
+    print(int(r.text[27:29]))
+    print(int(r.text[23:26]))
+    mm = int(r.text[27:29])# 分钟
+    hh = int(r.text[23:26])# 小时
+    rtc = RTC()
+    time_date = rtc.datetime()
+    print(&#39;重置时间！&#39;)
+    rtc.datetime((time_date[0], time_date[1], time_date[2], time_date[3], hh, mm, time_date[6], time_date[7]))
+    rtc.datetime()
+
+#自动联网
+def wifi_connect():
+  wifi_led=Pin(23,Pin.OUT)             # 板载指示灯初始化    MODE1左边
+  wlan = network.WLAN(network.STA_IF)  # 以工作站 (wlan) 模式运行，需要创建一个工作站Wi-Fi接口的实例
+  wlan.active(True)                    # 在工作站对象上调用激活方法并以True作为输入值传递来激活网络接口
+  start_time=time.time()               # 记录开始时间
+
+  if not wlan.isconnected():              # 如果尚未联网成功
+    print(&quot;当前无线未联网，正在连接中....&quot;)
+    wlan.connect(&#39;***&#39;,&#39;***&#39;)   # 无线网SSID、密码，开始联网
+    while not wlan.isconnected():         # 如果还未连接成功，则LED灯闪烁提示
+      wifi_led.value(0)
+      time.sleep_ms(1000)
+      wifi_led.value(0)
+      time.sleep_ms(1000)
+      print(&quot;正在尝试连接到wifi....&quot;)
+      print(time.time())
+      if time.time()-start_time&gt;15:       # 如果超过15秒还不行，就退出
+        print(&quot;连接失败!!!无线网连接超过15秒，请检查无线网名称和密码是否正确..&quot;)
+        break
+
+  if wlan.isconnected():                  # 如果联接成功
+    wifi_led.value(0)                     # LED灯常亮
+    IP_info=wlan.ifconfig()
+    print(&quot;##################################################&quot;)
+    print(&quot;无线网已经连接，信息如下：&quot;)
+    print(&quot;IP地址：&quot;+IP_info[0])
+    print(&quot;子网掩码：&quot;+IP_info[1])
+    print(&quot;网关：&quot;+IP_info[2])
+    print(&quot;DNS：&quot;+IP_info[3])
+    print(&quot;##################################################&quot;)
+#     get_time_pa()
+
+oled_str1=&#39;&#39;
+oled_str2=&#39;&#39;
+oled_str3=&#39;&#39;
+oled_str4=&#39;&#39;
+oled_str5=&#39;&#39;
+
+
+def oled_process(str1,ip,oled,graphics):
+#     i2c = machine.I2C(scl=machine.Pin(18), sda=machine.Pin(19))
+#     oled = ssd1306.SSD1306_I2C(128 ,64 ,i2c)
+#     graphics = gfx.GFX(128, 64, oled.pixel)
+    global oled_str1
+    global oled_str2
+    global oled_str3
+    global oled_str4
+    global oled_str5
+    oled_str1=oled_str2
+    oled_str2=oled_str3
+    oled_str3=oled_str4
+    oled_str4=oled_str5
+    oled_str5=str1
+    oled.fill(0)
+    graphics._slow_vline(0, 0, 64, 1)
+    graphics._slow_vline(127, 0, 128, 1)
+    graphics._slow_hline(0, 15, 128, 1)
+    graphics._slow_hline(0, 16, 128, 1)
+    graphics._slow_hline(0, 0, 128, 1)
+    graphics._slow_hline(0, 63, 128, 1)
+    oled.text(&quot;port:10000 &amp; ip&quot;,0+2,0)
+    oled.text(ip,0+2,8)
+    oled.text(oled_str5,0+2,16+2)
+    oled.text(oled_str4,0+2,24+2)
+    oled.text(oled_str3,0+2,32+2)
+    oled.text(oled_str2,0+2,40+2)
+    oled.text(oled_str1,0+2,48+2)
+    oled.show()
+
+
+# 显示屏代码
+def oled_try():
+    try:
+        i2c = machine.I2C(scl=machine.Pin(18), sda=machine.Pin(19))
+        oled = ssd1306.SSD1306_I2C(128 ,64 ,i2c)
+        graphics = gfx.GFX(128, 64, oled.pixel)
+        print(&quot;get&quot;)
+        connect_to_phone_oled(oled,graphics)
+    except:
+        print(&quot;false&quot;)
+        connect_to_phone()
+
+# 获取芯片温度
+# def wendu():
+#     f = esp32.raw_temperature()
+#     c = (f-32)/1.8
+#     print(c)
+#     oled.text(&quot;IC:&quot; + str(int(c)),20,0)
+
+def connect_to_phone_oled(oled,graphics):
+    try:
+        ip = Wifi.ifconfig()[0][0]   #获取IP地址
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   #设置套接字
+        sockaddr = socket.getaddrinfo(ip, port)
+        print(sockaddr[0][4])
+        s.bind(sockaddr[0][4])
+        oled_process(sockaddr[0][4][0],sockaddr[0][4][0],oled,graphics)
+        print(&quot;oled&quot;)
+        print(&#39;tcp waiting...&#39;)
+        while True:
+            data, addr = s.recvfrom(1024)
+            print(&#39;From %s %s&#39; % addr)
+            print(&#39;data is %s&#39; % data)
+            data_utf8 = bytes.decode(data)
+            oled_process(data_utf8,sockaddr[0][4][0],oled,graphics)
+            data_size = s.sendto(data, addr)
+    #             print(&#39;From %s %s&#39; % data_utf8)
+    #             print(&#39;data is %s&#39; % data_utf8)
+            if data_utf8 == &quot;led_1_on&quot;:
+                LED_1.value(0)
+#                 data_size = s.sendto(&quot;led_1_on&quot;, addr)
+            if data_utf8 == &quot;led_2_on&quot;:
+                LED_2.value(0)
+            if data_utf8 == &quot;led_1_off&quot;:
+                LED_1.value(1)
+#                 data_size = s.sendto(&quot;led_1_off&quot;, addr)
+            if data_utf8 == &quot;led_2_off&quot;:
+                LED_2.value(1)
+            if data_utf8 == &quot;led_3_on&quot;:
+                LED_3.value(0)
+            if data_utf8 == &quot;led_4_on&quot;:
+                LED_4.value(0)
+            if data_utf8 == &quot;led_3_off&quot;:
+                LED_3.value(1)
+            if data_utf8 == &quot;led_4_off&quot;:
+                LED_4.value(1)
+            if data_utf8 == &quot;led_5_on&quot;:
+                LED_5.value(0)
+            if data_utf8 == &quot;led_6_on&quot;:
+                LED_6.value(0)
+            if data_utf8 == &quot;led_5_off&quot;:
+                LED_5.value(1)
+            if data_utf8 == &quot;led_6_off&quot;:
+                LED_6.value(1)
+
+            if data_utf8 == &quot;led_7_on&quot;:
+                LED_7.value(1)
+            if data_utf8 == &quot;led_7_off&quot;:
+                LED_7.value(1)
+    except:
+        if(listenSocket):   #判断套接字是否为空
+            listenSocket.close()   #关闭套接字
+
+
+
+def connect_to_phone():
+    try:
+        ip = Wifi.ifconfig()[0][0]   #获取IP地址
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)   #设置套接字
+        sockaddr = socket.getaddrinfo(ip, port)
+        print(sockaddr[0][4])
+        s.bind(sockaddr[0][4])
+        print (&#39;tcp waiting...&#39;)
+        while True:
+            data, addr = s.recvfrom(1024)
+            print(&#39;From %s %s&#39; % addr)
+            print(&#39;data is %s&#39; % data)
+            data_utf8 = bytes.decode(data)
+#             print(&#39;From %s %s&#39; % data_utf8)
+#             print(&#39;data is %s&#39; % data_utf8)
+            data_size = s.sendto(data, addr)
+            if data_utf8 == &quot;led_1_on&quot;:
+                LED_1.value(0)
+            if data_utf8 == &quot;led_2_on&quot;:
+                LED_2.value(0)
+            if data_utf8 == &quot;led_1_off&quot;:
+                LED_1.value(1)
+            if data_utf8 == &quot;led_2_off&quot;:
+                LED_2.value(1)
+            if data_utf8 == &quot;led_3_on&quot;:
+                LED_3.value(0)
+            if data_utf8 == &quot;led_4_on&quot;:
+                LED_4.value(0)
+            if data_utf8 == &quot;led_3_off&quot;:
+                LED_3.value(1)
+            if data_utf8 == &quot;led_4_off&quot;:
+                LED_4.value(1)
+            if data_utf8 == &quot;led_5_on&quot;:
+                LED_5.value(0)
+            if data_utf8 == &quot;led_6_on&quot;:
+                LED_6.value(0)
+            if data_utf8 == &quot;led_5_off&quot;:
+                LED_5.value(1)
+            if data_utf8 == &quot;led_6_off&quot;:
+                LED_6.value(1)
+
+            if data_utf8 == &quot;led_7_on&quot;:
+                LED_7.value(1)
+            if data_utf8 == &quot;led_7_off&quot;:
+                LED_7.value(1)
+    except:
+        if(listenSocket):   #判断套接字是否为空
+            listenSocket.close()   #关闭套接字
+
+wifi_connect()
+oled_try()
+</code></pre>
+<h2 id="测试视屏"><a href="#测试视屏" class="headerlink" title="测试视屏"></a>测试视屏</h2><iframe height=520 width=776  src="//player.bilibili.com/player.html?aid=798143285&bvid=BV1Ay4y1D7T9&cid=269108454&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="max-width: 100%, text-align: center" > </iframe>
+
+
+
+
+
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <div id="comment" style='padding:10px;' class="vcomment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var GUEST_INFO = ['nick','mail','link'];
+    var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+        return GUEST_INFO.indexOf(item) > -1
+    });
+    var notify = 'true' == true;
+    var verify = 'true' == true;
+    new Valine({
+        el: '.vcomment',
+        notify: notify,
+        verify: verify,
+        appId: "nJwtgiPoYEggJJ9flfORgteX-gzGzoHsz",
+        appKey: "TvpM4ndN7we13qkshrrMuPmz",
+        placeholder: "Just go go",
+        pageSize:'10',
+        avatar:'identicon',
+        lang:'zh-cn'
+    });
+</script>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/phone/2021/01/31/stm32_dian_liang_led/stm32_dian_liang_led/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/phone/2020/12/12/wei_xin_xiao_cheng_xu_1/wei_xin_xiao_cheng_xu_xue_xi_bi_ji/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/phone/img/sidebar_header2.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/phone/img/avatar.png" alt="三白's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        三白
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/phone/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/phone/archives/2021/10/">十月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/06/">六月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/04/">四月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/01/">一月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2020/11/">十一月 2020<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Categories  -->
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/phone/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/links" title="友链">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友链
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/gallery" title="相册">
+                
+                    <i class="material-icons sidebar-material-icons">photolibrary</i>
+                
+                相册
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/tags" title="云标签">
+                
+                    <i class="material-icons sidebar-material-icons">queue</i>
+                
+                云标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/timeline" title="时间轴">
+                
+                    <i class="material-icons sidebar-material-icons">list</i>
+                
+                时间轴
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/bb" title="短博文">
+                
+                    <i class="material-icons sidebar-material-icons">sms</i>
+                
+                短博文
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="https://hp-l.gitee.io" title="主站">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主站
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/phone/archives">
+                文章总数
+                <span class="sidebar-badge">15</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+
+
+<!-- Help & Support -->
+<!--
+
+    <a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+        sidebar.help
+        <span class="mdl-button__ripple-container">
+          <span class="mdl-ripple"></span>
+        </span>
+      </div>
+    </a>
+
+-->
+
+<!-- Feedback -->
+<!--
+
+    <a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+        sidebar.feedback
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+    </a>
+
+-->
+
+<!-- About Theme -->
+<!--
+
+    <a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+             sidebar.about_theme
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+    </a>
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/xing-chen-80-57-71" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/1123801920/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2019&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>三白
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/lazyload.min.js", true)</script>
+
+
+
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/js.min.js", true)</script>
+
+
+
+    <script>lsloader.load("np_js","https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.js", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script>lsloader.load("sm_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/smoothscroll.js", true)</script>
+    
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+   
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('
+<link rel="stylesheet" href="/phone/css/uc.css">
+');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+    
+        <script>lsloader.load("hanabi","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/hanabi-browser-bundle.js", true)</script>
+    
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+        
+        
+        HanabiBrowser.start('pre code',true);
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.2 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

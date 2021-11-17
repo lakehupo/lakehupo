@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.2 -->
+    <script>
+        window.materialVersion = "1.5.2"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1',
+            '1.5.0'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source"/>
+
+
+    <link rel="dns-prefetch" href="https://cdn1.lncld.net"/>
+
+
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info"/>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- Title -->
+    
+    <title>
+        
+            DS18B20测温芯片驱动代码 | 
+        
+        三白
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/phone/img/favicon.png">
+    <link rel="icon" href="/phone/img/favicon.png">
+
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="description" itemprop="description" content="硬件">
+    <meta name="keywords" content=",DS18B20">
+    <meta name="theme-color" content="#0097A7">
+
+    <!-- Disable Fucking Bloody Baidu Tranformation -->
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(a){try{localStorage.removeItem(a)}catch(b){}};lsloader.setLS=function(a,c){try{localStorage.setItem(a,c)}catch(b){}};lsloader.getLS=function(a){var c="";try{c=localStorage.getItem(a)}catch(b){c=""}return c};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var b=[];for(var a=0;a<localStorage.length;a++){b.push(localStorage.key(a))}b.forEach(function(e){var f=lsloader.getLS(e);if(window.oldVersion){var d=window.oldVersion.reduce(function(g,h){return g||f.indexOf("/*"+h+"*/")!==-1},false);if(d){lsloader.removeLS(e)}}})}catch(c){}};lsloader.clean();lsloader.load=function(f,a,b,d){if(typeof b==="boolean"){d=b;b=undefined}d=d||false;b=b||function(){};var e;e=this.getLS(f);if(e&&e.indexOf(versionString)===-1){this.removeLS(f);this.requestResource(f,a,b,d);return}if(e){var c=e.split(versionString)[0];if(c!=a){console.log("reload:"+a);this.removeLS(f);this.requestResource(f,a,b,d);return}e=e.split(versionString)[1];if(d){this.jsRunSequence.push({name:f,code:e});this.runjs(a,f,e)}else{document.getElementById(f).appendChild(document.createTextNode(e));b()}}else{this.requestResource(f,a,b,d)}};lsloader.requestResource=function(b,e,a,c){var d=this;if(c){this.iojs(e,b,function(h,f,g){d.setLS(f,h+versionString+g);d.runjs(h,f,g)})}else{this.iocss(e,b,function(f){document.getElementById(b).appendChild(document.createTextNode(f));d.setLS(b,e+versionString+f)},a)}};lsloader.iojs=function(d,b,g){var a=this;a.jsRunSequence.push({name:b,code:""});try{var f=new XMLHttpRequest();f.open("get",d,true);f.onreadystatechange=function(){if(f.readyState==4){if((f.status>=200&&f.status<300)||f.status==304){if(f.response!=""){g(d,b,f.response);return}}a.jsfallback(d,b)}};f.send(null)}catch(c){a.jsfallback(d,b)}};lsloader.iocss=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.iofonts=function(f,c,h,a){var b=this;try{var g=new XMLHttpRequest();g.open("get",f,true);g.onreadystatechange=function(){if(g.readyState==4){if((g.status>=200&&g.status<300)||g.status==304){if(g.response!=""){h(g.response);a();return}}b.cssfallback(f,c,a)}};g.send(null)}catch(d){b.cssfallback(f,c,a)}};lsloader.runjs=function(f,c,e){if(!!c&&!!e){for(var b in this.jsRunSequence){if(this.jsRunSequence[b].name==c){this.jsRunSequence[b].code=e}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var a=document.createElement("script");a.appendChild(document.createTextNode(this.jsRunSequence[0].code));a.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(a);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else{if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var d=this;var a=document.createElement("script");a.src=this.jsRunSequence[0].path;a.type="text/javascript";this.jsRunSequence[0].status="loading";a.onload=function(){d.jsRunSequence.shift();if(d.jsRunSequence.length>0){d.runjs()}};document.body.appendChild(a)}}};lsloader.tagLoad=function(b,a){this.jsRunSequence.push({name:a,code:"",path:b,status:"failed"});this.runjs()};lsloader.jsfallback=function(c,b){if(!!this.jsnamemap[b]){return}else{this.jsnamemap[b]=b}for(var a in this.jsRunSequence){if(this.jsRunSequence[a].name==b){this.jsRunSequence[a].code="";this.jsRunSequence[a].status="failed";this.jsRunSequence[a].path=c}}this.runjs()};lsloader.cssfallback=function(e,c,b){if(!!this.cssnamemap[c]){return}else{this.cssnamemap[c]=1}var d=document.createElement("link");d.type="text/css";d.href=e;d.rel="stylesheet";d.onload=d.onerror=b;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(d,a)};lsloader.runInlineScript=function(c,b){var a=document.getElementById(b).innerText;this.jsRunSequence.push({name:c,code:a});this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/style.min.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/phone/img/bg.png);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icons -->
+
+
+    <style id="material_icons"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_icons","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/css/material-icons.css",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","https://code.jquery.com/jquery-2.2.0.js", true)</script>
+    
+
+    <!-- WebAPP Icons -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="三白">
+    <meta name="msapplication-starturl" content="https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/">
+    <meta name="msapplication-navbutton-color" content="#0097A7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="三白">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/phone/img/favicon.png">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="DS18B20测温芯片驱动代码 | 三白">
+    <meta property="og:image" content="/phone/img/favicon.png">
+    <meta property="og:description" content="硬件">
+    <meta property="og:article:tag" content="DS18B20"> 
+
+    
+        <meta property="article:published_time" content="Wed Jun 02 2021 09:23:02 GMT+0800">
+        <meta property="article:modified_time" content="Sat Oct 09 2021 08:05:23 GMT+0800">
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html",
+    "headline": "DS18B20测温芯片驱动代码",
+    "datePublished": "Wed Jun 02 2021 09:23:02 GMT+0800",
+    "dateModified": "Sat Oct 09 2021 08:05:23 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "三白",
+        "image": {
+            "@type": "ImageObject",
+            "url": "/img/avatar.png"
+        },
+        "description": "Hi,Nice to meet you,Wellcome!"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "三白",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/favicon.png"
+        }
+    },
+    "keywords": ",DS18B20",
+    "description": "硬件",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+    
+    
+
+    <!-- Custom Head -->
+    
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+<!--     
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DS18B20%E9%A9%B1%E5%8A%A8%E4%BB%A3%E7%A0%81"><span class="post-toc-number">1.</span> <span class="post-toc-text">DS18B20驱动代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PCB%E6%96%87%E4%BB%B6%E5%8F%8A%E5%85%B6%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="post-toc-number">2.</span> <span class="post-toc-text">PCB文件及其示意图</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PCB%E5%8E%9F%E4%BB%B6%E5%B8%83%E5%B1%80"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">PCB原件布局</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BOM%E8%A1%A8"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">BOM表</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%95%E7%89%87%E6%9C%BA%E4%BB%A3%E7%A0%81"><span class="post-toc-number">3.</span> <span class="post-toc-text">单片机代码</span></a></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://hp-l.gitee.io/img/headimg/headimg_12.png)">
+    
+            <p class="article-headline-p">
+                DS18B20测温芯片驱动代码
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/phone/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>三白</strong>
+        <span>6月 02, 2021</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+        <button id="article-functions-qrcode-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">devices other</i>
+    <span class="visuallyhidden">devices other</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-qrcode-button">
+    <li class="mdl-menu__item">在其它设备中阅读本文章</li>
+    
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAADjUlEQVR42u3aO5IiQQwFQO5/6V13jQXek6oAI9siYnroUmKo9Xn8cf1zPRDgwIEDBw4cOHDgwPHDHI/4+vf+/3xpcGf7lPYkbSw4cODAgeMex5tUFBz02V8TrNfHfXb/689JLDhw4MCB4zZHm9JyoDcHipNikuzrWHDgwIEDx1c58nLr2f2vy7+6ACuTNw4cOHDg+DWOTVswKbraO3HgwIEDxy9z5A21vBhL0uoNjg/1SnHgwIEDx9GFht/8/LX9Dhw4cODAMbqSNJmPmvKknrQphxHhwIEDB46jHO1IKcfKi702+Bl68d6BAwcOHDgWHPvh02wBIn9u2xzMn4gDBw4cOG5w3At4A9EWeO2ACgcOHDhw3ObYJNd2paBtPs4WrwtKHDhw4MBxlGNzoNcpNnnKrJBrseqKFgcOHDhwLDg2yXJT2iXlVr7ulg+9cODAgQPHZzhm45wbawebBYXD+x04cODAgWPE0R5otnzQFnKzMm/4uoADBw4cOI5yzMqqFqgt6vLANuUcDhw4cOC4zdEuN+T/tUmim0IuWs7AgQMHDhxHOdp0OFuqyxNz0qzM24g4cODAgeNbHG1gm1WDeuFgMViK0jYOHDhw4LjAkRRm7fhnX4zlLwGzUhAHDhw4cNzgyNt5bdKd8eWjpryt+aZNiQMHDhw4LnDMxkivD52k89lqxaz5WCRaHDhw4MBxmWMW6n4QlSfO9kUBBw4cOHDc5pgVbC3BrJnYLt616RYHDhw4cNzm2AyT2ubg7SLt8NgJBw4cOHDECw35qsGseTdbcWi/eVba4cCBAweOexybVmCyiNAOrvYB48CBAweOz3MkibNdZdsUh0kYs8U4HDhw4MDxGY420e7beS1We576RQEHDhw4cBzl2Lfz8qLu1EipHS+9KRRx4MCBA8dRjjzdtkkxv38P3f4MOHDgwIHjNkfbekuC2SzV5a3JR3w9fQoOHDhw4LjA0a4vzEKdpckEa3ZOHDhw4MBxg2OTqDZF2qzB165BDMdOOHDgwIFjzbEZI82afW1JlsPlfDhw4MCB4zbHbIGgJZg1HNsWZH42HDhw4MDxXY6kTJp9Qx1G2RyMxk44cODAgeNLHEmynKXb9gyvi8No8QIHDhw4cFzjSBp5bVGXD7c2CxZ52j48dsKBAwcOHEcXGjZtwc06QrEGlwyocODAgQPHUQ4XDhw4cODAgQMHDhw4fuz6Cwkzi0w0SeYTAAAAAElFTkSuQmCC">
+    
+</ul>
+
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-none-link" href="/phone/tags/DS18B20/" rel="tag">DS18B20</a>
+    </ul>
+    
+
+    <!-- Share -->
+    
+        <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=DS18B20测温芯片驱动代码&url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html&pic=https://hp-l.gitee.io/img/favicon.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=DS18B20测温芯片驱动代码&url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html&via=三白" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+        <a class="post_share-link" href="https://www.linkedin.com/shareArticle?mini=true&url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html&title=DS18B20测温芯片驱动代码" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 LinkedIn
+            </li>
+        </a>
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=三白&title=DS18B20测温芯片驱动代码&summary=硬件&pics=https://hp-l.gitee.io/img/favicon.png&url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+        <a class="post_share-link" href="https://telegram.me/share/url?url=https://hp-l.gitee.io/phone/2021/06/02/ds18b20_ce_wen_xin_pian/ds18b20_ce_wen_xin_pian_qu_dong_dai_ma/index.html&text=DS18B20测温芯片驱动代码" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Telegram
+            </li>
+        </a>
+    
+</ul>
+
+    
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>以下代码在STC15W408AS单片机进行测试，后面还有自制的PCB的原理图和layout设计（因某些原因需要制作这样一块显示温度的小项目，又想节约成本，于是画的十分简陋……）</p>
+<h2 id="DS18B20驱动代码"><a href="#DS18B20驱动代码" class="headerlink" title="DS18B20驱动代码"></a>DS18B20驱动代码</h2><pre><code class="c">#include &quot;stc15.h&quot; //此处应修改为相应的单片机库
+
+sbit DQ = P1^1;  //此处为连接DS18B20的引脚号
+
+//单总线延时函数
+void Delay_OneWire(unsigned int t)  //STC89C52RC
+&#123;
+    unsigned char i;
+    while(t--)
+    &#123;
+        for(i=0;i&lt;12;i++);
+    &#125;
+&#125;
+
+//通过单总线向DS18B20写一个字节
+void Write_DS18B20(unsigned char dat)
+&#123;
+    unsigned char i;
+    for(i=0;i&lt;8;i++)
+    &#123;
+        DQ = 0;
+        DQ = dat&amp;0x01;
+        Delay_OneWire(5);
+        DQ = 1;
+        dat &gt;&gt;= 1;
+    &#125;
+    Delay_OneWire(5);
+&#125;
+
+//从DS18B20读取一个字节
+unsigned char Read_DS18B20(void)
+&#123;
+    unsigned char i;
+    unsigned char dat;
+  
+    for(i=0;i&lt;8;i++)
+    &#123;
+        DQ = 0;
+        dat &gt;&gt;= 1;
+        DQ = 1;
+        if(DQ)
+        &#123;
+            dat |= 0x80;
+        &#125;        
+        Delay_OneWire(5);
+    &#125;
+    return dat;
+&#125;
+
+//DS18B20设备初始化
+bit init_ds18b20(void)
+&#123;
+      bit initflag = 0;
+      
+      DQ = 1;
+      Delay_OneWire(12);
+      DQ = 0;
+      Delay_OneWire(80);
+      DQ = 1;
+      Delay_OneWire(10); 
+    initflag = DQ;     
+      Delay_OneWire(5);
+  
+      return initflag;
+&#125;
+
+ unsigned char rd_temperature(void)
+&#123;
+    unsigned char low,high;
+      char temp;
+  
+      init_ds18b20();
+      Write_DS18B20(0xCC);
+      Write_DS18B20(0x44); //启动温度转换
+      Delay_OneWire(200);
+
+      init_ds18b20();
+      Write_DS18B20(0xCC);
+      Write_DS18B20(0xBE); //读取寄存器
+
+      low = Read_DS18B20(); //低字节
+      high = Read_DS18B20(); //高字节
+  
+      temp = high&lt;&lt;4;
+      temp |= (low&gt;&gt;4);
+  
+      return temp;
+&#125;
+</code></pre>
+<h2 id="PCB文件及其示意图"><a href="#PCB文件及其示意图" class="headerlink" title="PCB文件及其示意图"></a>PCB文件及其示意图</h2><p>PCB文件以压缩包形式打包。<a href="%E6%B8%A9%E6%8E%A7.rar">戳我下载</a><br>注：我画的是拼板，右侧的那块可能地线没有接到一起。</p>
+<h3 id="PCB原件布局"><a href="#PCB原件布局" class="headerlink" title="PCB原件布局"></a>PCB原件布局</h3><p><img src="pcb.jpg" alt="pcb.jpg"></p>
+<h3 id="BOM表"><a href="#BOM表" class="headerlink" title="BOM表"></a>BOM表</h3><table>
+<thead>
+<tr>
+<th align="center">Comment</th>
+<th align="center">Description</th>
+<th align="center">Footprint</th>
+<th align="center">Quantity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">5261AS</td>
+<td align="center">二位共阴数码管</td>
+<td align="center">5261AS</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">LED</td>
+<td align="center">发光二极管</td>
+<td align="center">0603</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Header 4</td>
+<td align="center">Header, 4-Pin</td>
+<td align="center">HDR1X4</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Res</td>
+<td align="center">10K</td>
+<td align="center">0603</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Res</td>
+<td align="center">5.1R</td>
+<td align="center">0603</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">STC15W408AS</td>
+<td align="center">C51单片机</td>
+<td align="center">SOP-16</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">DS18B20模组</td>
+<td align="center">DS18B20模组</td>
+<td align="center">DS18B20模组</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p>DS18B20模组相关文件由淘宝商家提供，以下是淘宝商家公开的百度网盘连接。<br><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/19CwH6CAaWgVBMKmCA28ygQ">https://pan.baidu.com/s/19CwH6CAaWgVBMKmCA28ygQ</a> 提取码：lggj</p>
+<h2 id="单片机代码"><a href="#单片机代码" class="headerlink" title="单片机代码"></a>单片机代码</h2><pre><code class="c">#include &quot;stc15.h&quot;
+#include &quot;intrins.h&quot;
+#include &quot;onewire.h&quot;
+#include &quot;absacc.h&quot;
+
+#define uchar unsigned char
+#define uint unsigned int
+
+sbit LED = P3 ^ 2; //H有效
+sbit DIGITAL_a = P1 ^ 2;
+sbit DIGITAL_b = P1 ^ 3;
+sbit DIGITAL_c = P1 ^ 4;
+sbit DIGITAL_d = P1 ^ 5;
+sbit DIGITAL_e = P5 ^ 4;  //sbit DIGITAL_e = P2 ^ 4;
+sbit DIGITAL_f = P5 ^ 5;  //sbit DIGITAL_e = P2 ^ 5;
+sbit DIGITAL_g = P1 ^ 0;
+sbit DIGITAL_dp = P3 ^ 7;
+sbit DIGITAL_H = P3 ^ 6;
+sbit DIGITAL_L = P3 ^ 3;
+//sbit DQ = P1 ^ 1;
+
+bit temper_flag = 0; //温度读取标志
+int temp = 0;
+int intr = 0;
+
+/*数码管显示数字*/
+void printf_num(num)
+&#123;
+    if (num == 0)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 1;
+        DIGITAL_f = 1;
+        DIGITAL_g = 0;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示1*/
+    if (num == 1)
+    &#123;
+        DIGITAL_a = 0;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 0;
+        DIGITAL_e = 0;
+        DIGITAL_f = 0;
+        DIGITAL_g = 0;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示2*/
+    if (num == 2)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 0;
+        DIGITAL_d = 1;
+        DIGITAL_e = 1;
+        DIGITAL_f = 0;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示3*/
+    if (num == 3)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 0;
+        DIGITAL_f = 0;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示4*/
+    if (num == 4)
+    &#123;
+        DIGITAL_a = 0;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 0;
+        DIGITAL_e = 0;
+        DIGITAL_f = 1;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示0*/
+    if (num == 5)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 0;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 0;
+        DIGITAL_f = 1;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示6*/
+    if (num == 6)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 0;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 1;
+        DIGITAL_f = 1;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示7*/
+    if (num == 7)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 0;
+        DIGITAL_e = 0;
+        DIGITAL_f = 0;
+        DIGITAL_g = 0;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示8*/
+    if (num == 8)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 1;
+        DIGITAL_f = 1;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+    /*显示9*/
+    if (num == 9)
+    &#123;
+        DIGITAL_a = 1;
+        DIGITAL_b = 1;
+        DIGITAL_c = 1;
+        DIGITAL_d = 1;
+        DIGITAL_e = 0;
+        DIGITAL_f = 1;
+        DIGITAL_g = 1;
+        DIGITAL_dp = 0;
+    &#125;
+&#125;
+
+/*数码管显示温度*/
+void printf_wendu(num)
+&#123;
+    //    printf_num(num/10);
+    DIGITAL_H = 0;
+    printf_num(num / 10);
+    //    DIGITAL_H = 0;
+    DIGITAL_H = 1;
+
+    DIGITAL_a = 0;
+    DIGITAL_b = 0;
+    DIGITAL_c = 0;
+    DIGITAL_d = 0;
+    DIGITAL_e = 0;
+    DIGITAL_f = 0;
+    DIGITAL_g = 0;
+    DIGITAL_dp = 0;
+
+    //    Delay_printf_wendu();
+    //    printf_num(num%10);
+    DIGITAL_L = 0;
+    printf_num(num % 10);
+    //    DIGITAL_L = 0;
+    DIGITAL_L = 1;
+
+    DIGITAL_a = 0;
+    DIGITAL_b = 0;
+    DIGITAL_c = 0;
+    DIGITAL_d = 0;
+    DIGITAL_e = 0;
+    DIGITAL_f = 0;
+    DIGITAL_g = 0;
+    DIGITAL_dp = 0;
+
+    //    Delay_printf_wendu();
+&#125;
+
+void main(void)
+&#123;
+    float temperature;
+        while (1)
+    &#123;
+        if (temper_flag)
+        &#123;
+            temper_flag = 0;
+            temperature = rd_temperature(); //读温度
+            temp = temperature;
+        &#125;
+        
+        printf_wendu(temp);
+        intr++;
+        if (intr == 100) //1ms执行一次
+        &#123;
+            intr = 0;
+            temper_flag = 1; //100ms温度读取标志位置1
+        &#125;
+
+    &#125;
+
+&#125;
+```        &#125;
+
+    &#125;
+
+&#125;
+```    &#125;
+
+&#125;
+</code></pre>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <div id="comment" style='padding:10px;' class="vcomment"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    var GUEST_INFO = ['nick','mail','link'];
+    var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+        return GUEST_INFO.indexOf(item) > -1
+    });
+    var notify = 'true' == true;
+    var verify = 'true' == true;
+    new Valine({
+        el: '.vcomment',
+        notify: notify,
+        verify: verify,
+        appId: "nJwtgiPoYEggJJ9flfORgteX-gzGzoHsz",
+        appKey: "TvpM4ndN7we13qkshrrMuPmz",
+        placeholder: "Just go go",
+        pageSize:'10',
+        avatar:'identicon',
+        lang:'zh-cn'
+    });
+</script>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/phone/2021/06/27/wei_vscode_tian_jia_bei_jing/wei_vscode_tian_jia_bei_jing/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/phone/2021/04/26/wei_valine_ping_lun_tian_jia_qq_tou_xiang_shi_bie/wei_valine_ping_lun_tian_jia_qq_tou_xiang_shi_bie/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/phone/img/sidebar_header2.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/phone/img/avatar.png" alt="三白's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        三白
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/phone/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/phone/archives/2021/10/">十月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/06/">六月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/04/">四月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2021/01/">一月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2020/12/">十二月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/phone/archives/2020/11/">十一月 2020<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Categories  -->
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/phone/about" title="关于">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                关于
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/links" title="友链">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                友链
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/gallery" title="相册">
+                
+                    <i class="material-icons sidebar-material-icons">photolibrary</i>
+                
+                相册
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/tags" title="云标签">
+                
+                    <i class="material-icons sidebar-material-icons">queue</i>
+                
+                云标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/timeline" title="时间轴">
+                
+                    <i class="material-icons sidebar-material-icons">list</i>
+                
+                时间轴
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/phone/bb" title="短博文">
+                
+                    <i class="material-icons sidebar-material-icons">sms</i>
+                
+                短博文
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="https://hp-l.gitee.io" title="主站">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主站
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/phone/archives">
+                文章总数
+                <span class="sidebar-badge">15</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+    <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+            主题 - Material
+            <span class="sidebar-badge badge-circle">i</span>
+        </div>
+    </a>
+
+
+<!-- Help & Support -->
+<!--
+
+    <a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+        sidebar.help
+        <span class="mdl-button__ripple-container">
+          <span class="mdl-ripple"></span>
+        </span>
+      </div>
+    </a>
+
+-->
+
+<!-- Feedback -->
+<!--
+
+    <a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+        sidebar.feedback
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+    </a>
+
+-->
+
+<!-- About Theme -->
+<!--
+
+    <a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+        <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+             sidebar.about_theme
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+    </a>
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/xing-chen-80-57-71" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Bilibili -->
+    
+        <a href="https://space.bilibili.com/1123801920/" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-bilibili">
+                <span class="visuallyhidden">Bilibili</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2019&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>三白
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/lazyload.min.js", true)</script>
+
+
+
+    <script>lsloader.load("js_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/js.min.js", true)</script>
+
+
+
+    <script>lsloader.load("np_js","https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.js", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+    
+        <script>lsloader.load("sm_js","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/smoothscroll.js", true)</script>
+    
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+   
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('
+<link rel="stylesheet" href="/phone/css/uc.css">
+');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+    
+        <script>lsloader.load("hanabi","https://cdn.jsdelivr.net/gh/viosey/hexo-theme-material@latest/source/js/hanabi-browser-bundle.js", true)</script>
+    
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+        
+        
+        HanabiBrowser.start('pre code',true);
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.2 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

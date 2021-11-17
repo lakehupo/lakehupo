@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESP32_物联网那些事 | 三白</title><meta name="keywords" content="ESP32,物联网"><meta name="author" content="三白"><meta name="copyright" content="三白"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ESP32_物联网那些事通过查阅资料，ESP32 是一款物联网模块，它支持 TCP&#x2F;IP 协议，于是我们可以使用 socket 通讯，实现局域网通信，它也支持 MQTT 通讯，呵远程连接到阿里云。下面的链接有详细的使用说明。 Socket 通信 使用物联网第一步：烧录固件这里提到的固件是micropython官方出的固件，我在网上还看到了不少通过C语言写.bin固件的教程，可以写自己需要的固件刷入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESP32_物联网那些事">
+<meta property="og:url" content="https://hp-l.gitee.io/2020/12/03/esp32_wu_lian_wang_na_xie_shi/esp32_wu_lian_wang_na_xie_shi/index.html">
+<meta property="og:site_name" content="三白">
+<meta property="og:description" content="ESP32_物联网那些事通过查阅资料，ESP32 是一款物联网模块，它支持 TCP&#x2F;IP 协议，于是我们可以使用 socket 通讯，实现局域网通信，它也支持 MQTT 通讯，呵远程连接到阿里云。下面的链接有详细的使用说明。 Socket 通信 使用物联网第一步：烧录固件这里提到的固件是micropython官方出的固件，我在网上还看到了不少通过C语言写.bin固件的教程，可以写自己需要的固件刷入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hp-l.gitee.io/img/headimg/headimg_1.jpg">
+<meta property="article:published_time" content="2020-12-03T07:44:23.000Z">
+<meta property="article:modified_time" content="2021-10-09T00:04:27.677Z">
+<meta property="article:author" content="三白">
+<meta property="article:tag" content="ESP32">
+<meta property="article:tag" content="物联网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hp-l.gitee.io/img/headimg/headimg_1.jpg"><link rel="shortcut icon" href="https://hp-l.gitee.io/img/%E5%8D%A1%E9%80%9A%E5%A4%B4%E5%83%8F.jpg"><link rel="canonical" href="https://hp-l.gitee.io/2020/12/03/esp32_wu_lian_wang_na_xie_shi/esp32_wu_lian_wang_na_xie_shi/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/butterfly/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/butterfly/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":100,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-09 08:04:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://hp-l.gitee.io/img/%E5%8D%A1%E9%80%9A%E5%A4%B4%E5%83%8F.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/butterfly/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/butterfly/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/butterfly/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hp-l.gitee.io/img/headimg/headimg_1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/butterfly/">三白</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/butterfly/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/butterfly/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ESP32_物联网那些事</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-03T07:44:23.000Z" title="发表于 2020-12-03 15:44:23">2020-12-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-09T00:04:27.677Z" title="更新于 2021-10-09 08:04:27">2021-10-09</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ESP32_物联网那些事"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="ESP32-物联网那些事"><a href="#ESP32-物联网那些事" class="headerlink" title="ESP32_物联网那些事"></a>ESP32_物联网那些事</h2><p>通过查阅资料，ESP32 是一款物联网模块，它支持 TCP/IP 协议，于是我们可以使用 socket 通讯，实现局域网通信，它也支持 MQTT 通讯，呵远程连接到阿里云。下面的链接有详细的使用说明。</p>
+<p><a target="_blank" rel="noopener" href="http://www.1zlab.com/wiki/micropython-esp32/sockets/">Socket 通信</a></p>
+<h2 id="使用物联网第一步：烧录固件"><a href="#使用物联网第一步：烧录固件" class="headerlink" title="使用物联网第一步：烧录固件"></a>使用物联网第一步：烧录固件</h2><p>这里提到的固件是micropython官方出的固件，我在网上还看到了不少通过C语言写.bin固件的教程，可以写自己需要的固件刷入到ESP32中</p>
+<p>可以参考这篇文章</p>
+<p><a href="https://hp-l.gitee.io/2020/11/05/ESP32-micropython%E5%9B%BA%E4%BB%B6%E7%83%A7%E5%BD%95/esp32-micropython%E5%9B%BA%E4%BB%B6%E7%83%A7%E5%BD%95/?t=1606983183242">ESP32_micropython固件烧录</a></p>
+<h2 id="如何连接到-WiFi？"><a href="#如何连接到-WiFi？" class="headerlink" title="如何连接到 WiFi？"></a>如何连接到 WiFi？</h2><p><a href="https://hp-l.gitee.io/2020/11/09/micropython%E8%81%94%E7%BD%91%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4/micropython%E8%81%94%E7%BD%91%E5%90%8C%E6%AD%A5%E6%97%B6%E9%97%B4/?t=1606983747012">Micropython联网同步时间</a></p>
+<p>ESP32 是可以使用 REPL 的，REPL 就像局域网下的 VSCode，可以在浏览器上编写程序，可惜他不能开机自启，于是就有人开发了一款叫做 EMP 的 IDE ，下面有链接。</p>
+<p><a target="_blank" rel="noopener" href="http://www.1zlab.com/wiki/micropython-esp32/emp-project/">EMP项目简介</a></p>
+<p>我在执行原文提供的代码时发现<code>set_boot_mode()</code>报错</p>
+<p>原文提供的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> emp_boot <span class="keyword">import</span> set_boot_mode</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>set_boot_mode()</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> emp_boot <span class="keyword">import</span> set_boot_mode</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>set_boot_mode()</span><br><span class="line">[<span class="number">0</span>]  Boot <span class="keyword">with</span> nothing</span><br><span class="line">     attention: this option will clear up boot.py, careful!</span><br><span class="line">[<span class="number">1</span>]  Boot <span class="keyword">with</span> wifi startup</span><br><span class="line">       this mode will auto start wifi connect program.</span><br><span class="line">[<span class="number">2</span>]  Easy to develop</span><br><span class="line">     this mode <span class="keyword">is</span> <span class="keyword">for</span> developers.In this mode you can develop much easier via EMP-         IDE(emp<span class="number">.1</span>zlab.com)</span><br><span class="line">Please <span class="built_in">input</span> your choice [<span class="number">0</span>-<span class="number">2</span>]:</span><br></pre></td></tr></table></figure>
+
+
+<p>下面给出解决方案：</p>
+<p>在 ESP32 的 boot.py 中所有代码替换成如下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> emp_wifi <span class="keyword">import</span> Wifi</span><br><span class="line"><span class="keyword">from</span> emp_webrepl <span class="keyword">import</span> WebREPL</span><br><span class="line"><span class="keyword">from</span> emp_utils <span class="keyword">import</span> webrepl_pass</span><br><span class="line"><span class="keyword">from</span> emp_utils <span class="keyword">import</span> post_ip</span><br><span class="line"><span class="keyword">from</span> machine <span class="keyword">import</span> Pin <span class="comment"># 引用LED使用</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">wifi_LED = Pin(<span class="number">12</span>, Pin.OUT, value=<span class="number">1</span>) <span class="comment">#定义LED</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    Wifi.connect()</span><br><span class="line">    post_ip(Wifi.ifconfig()[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">    wifi_LED.value(<span class="number">0</span>)</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line">    wifi_LED.value(<span class="number">1</span>)</span><br><span class="line"><span class="comment">#     WebREPL.start(password=webrepl_pass())</span></span><br><span class="line"><span class="comment">#     from emp_ide import *</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">上面两行是调用emp_ide，取消注释就可以使用emp_ide，</span></span><br><span class="line"><span class="string">这里注释掉的原因是想直接调用连接WiFi的函数不使用emp_ide</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在按复位即可，终端中会提示连接网络并且输入密码，连接过的 WiFi 会被记住，下次连接自动连，非常方便</p>
+<h2 id="利用-ESP32-联网实现一些小功能"><a href="#利用-ESP32-联网实现一些小功能" class="headerlink" title="利用 ESP32 联网实现一些小功能"></a>利用 ESP32 联网实现一些小功能</h2><p>我们可以通过 socket 通讯使得 PC 可以传输数据流到 ESP32 中，下面是代码，这里仿照的是<a target="_blank" rel="noopener" href="http://www.1zlab.com/wiki/micropython-esp32/sockets/">Socket 通信</a>文末的代码，原文中代码只能传输字节，下面代码可以传输中文字符，通过定义 IO 口可以实现局域网点亮 LED，甚至舵机。</p>
+<h3 id="ESP32-TCP-服务端"><a href="#ESP32-TCP-服务端" class="headerlink" title="ESP32 TCP 服务端"></a>ESP32 TCP 服务端</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> machine <span class="keyword">import</span> Timer,Pin,RTC <span class="comment">#调用GPIO口调用定时器库</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">from</span> emp_wifi <span class="keyword">import</span> Wifi</span><br><span class="line"><span class="keyword">import</span> network</span><br><span class="line">wifi = network.WLAN(network.STA_IF)</span><br><span class="line">wifi.active(<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 远程连接传输命令函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect_to_phone</span>():</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 注意：线连接到WiFi网络！</span></span><br><span class="line">        <span class="comment"># 如果未连接到网络，以下是连接到网络的代码</span></span><br><span class="line">        <span class="comment"># Wifi.connect()</span></span><br><span class="line">        ip = Wifi.ifconfig()[<span class="number">0</span>][<span class="number">0</span>]   <span class="comment">#获取IP地址</span></span><br><span class="line">        listenSocket = socket.socket()   <span class="comment">#创建套接字</span></span><br><span class="line">        listenSocket.bind((ip, port))   <span class="comment">#绑定地址和端口号</span></span><br><span class="line">        listenSocket.listen(<span class="number">1</span>)   <span class="comment">#监听套接字, 最多允许一个连接</span></span><br><span class="line">        listenSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)   <span class="comment">#设置套接字</span></span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&#x27;tcp waiting...&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;accepting.....&quot;</span>)</span><br><span class="line">            conn, addr = listenSocket.accept()   <span class="comment">#接收连接请求，返回收发数据的套接字对象和客户端地址</span></span><br><span class="line">            <span class="built_in">print</span>(addr, <span class="string">&quot;connected&quot;</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                data = conn.recv(<span class="number">1024</span>)   <span class="comment">#接收数据（1024字节大小）</span></span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">len</span>(data) == <span class="number">0</span>):   <span class="comment">#判断客户端是否断开连接</span></span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;close socket&quot;</span>)</span><br><span class="line">                    conn.close()   <span class="comment">#关闭套接字</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">    <span class="comment">#             print(data)</span></span><br><span class="line">                code_utf8 = <span class="built_in">bytes</span>.decode(data)</span><br><span class="line">                <span class="built_in">print</span>(code_utf8)</span><br><span class="line">                ret = conn.send(data)   <span class="comment">#发送数据</span></span><br><span class="line">                <span class="keyword">if</span> code_utf8 == <span class="string">&quot;led1 open&quot;</span>:</span><br><span class="line">                    B.value(<span class="number">0</span>)</span><br><span class="line">                <span class="keyword">if</span> code_utf8 == <span class="string">&quot;led2 open&quot;</span>:</span><br><span class="line">                    C.value(<span class="number">0</span>)</span><br><span class="line">                <span class="keyword">if</span> code_utf8 == <span class="string">&quot;led1 down&quot;</span>:</span><br><span class="line">                    B.value(<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">if</span> code_utf8 == <span class="string">&quot;led2 down&quot;</span>:</span><br><span class="line">                    C.value(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">if</span>(listenSocket):   <span class="comment">#判断套接字是否为空</span></span><br><span class="line">            listenSocket.close()   <span class="comment">#关闭套接字</span></span><br><span class="line"></span><br><span class="line">wifi_connect()</span><br></pre></td></tr></table></figure>
+
+<h3 id="PC-端"><a href="#PC-端" class="headerlink" title="PC 端"></a>PC 端</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="comment"># PC TCP Client</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket               <span class="comment"># 导入 socket 模块</span></span><br><span class="line"></span><br><span class="line">s = socket.socket()         <span class="comment"># 创建 socket 对象</span></span><br><span class="line">host = <span class="string">&#x27;192.168.2.231&#x27;</span>      <span class="comment"># esp32 ip</span></span><br><span class="line">port = <span class="number">10000</span>                <span class="comment"># 设置端口号</span></span><br><span class="line"></span><br><span class="line">s.connect((host, port))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        msg = raw_input(<span class="string">&#x27;&gt;&gt;&gt; &#x27;</span>)</span><br><span class="line">        s.send(msg)</span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">三白</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://hp-l.gitee.io/2020/12/03/esp32_wu_lian_wang_na_xie_shi/esp32_wu_lian_wang_na_xie_shi/">https://hp-l.gitee.io/2020/12/03/esp32_wu_lian_wang_na_xie_shi/esp32_wu_lian_wang_na_xie_shi/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://hp-l.gitee.io" target="_blank">三白</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/butterfly/tags/ESP32/">ESP32</a><a class="post-meta__tags" href="/butterfly/tags/%E7%89%A9%E8%81%94%E7%BD%91/">物联网</a></div><div class="post_share"><div class="social-share" data-image="https://hp-l.gitee.io/img/headimg/headimg_1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/butterfly/2020/12/12/wei_xin_xiao_cheng_xu_1/wei_xin_xiao_cheng_xu_xue_xi_bi_ji/"><img class="prev-cover" src="https://hp-l.gitee.io/img/headimg/headimg_5.png" onerror="onerror=null;src='/butterfly/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">微信小程序学习笔记</div></div></a></div><div class="next-post pull-right"><a href="/butterfly/2020/11/25/stm32_kai_fa_huan_jing_da_jian/stm32_kai_fa_huan_jing_da_jian/"><img class="next-cover" src="https://hp-l.gitee.io/img/headimg/headimg_6.png" onerror="onerror=null;src='/butterfly/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">STM32开发环境搭建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/butterfly/2020/12/16/xiao_cheng_xu_kong_zhi_esp32/xiao_cheng_xu_ju_yu_wang_kong_zhi_esp32_wu_lian_wang_xin_pian/" title="小程序局域网控制ESP32（物联网芯片）"><img class="cover" src="https://hp-l.gitee.io/img/headimg/headimg_7.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-16</div><div class="title">小程序局域网控制ESP32（物联网芯片）</div></div></a></div><div><a href="/butterfly/2020/11/05/esp32_micropython_gu_jian_shao_lu/esp32_micropython_gu_jian_shao_lu/" title="ESP32_micropython固件烧录"><img class="cover" src="https://hp-l.gitee.io/img/headimg/headimg_2.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-05</div><div class="title">ESP32_micropython固件烧录</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ESP32-%E7%89%A9%E8%81%94%E7%BD%91%E9%82%A3%E4%BA%9B%E4%BA%8B"><span class="toc-number">1.</span> <span class="toc-text">ESP32_物联网那些事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%89%A9%E8%81%94%E7%BD%91%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%83%A7%E5%BD%95%E5%9B%BA%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">使用物联网第一步：烧录固件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9E%E6%8E%A5%E5%88%B0-WiFi%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">如何连接到 WiFi？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-ESP32-%E8%81%94%E7%BD%91%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%BA%9B%E5%B0%8F%E5%8A%9F%E8%83%BD"><span class="toc-number">4.</span> <span class="toc-text">利用 ESP32 联网实现一些小功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESP32-TCP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">4.1.</span> <span class="toc-text">ESP32 TCP 服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PC-%E7%AB%AF"><span class="toc-number">4.2.</span> <span class="toc-text">PC 端</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://hp-l.gitee.io/img/headimg/headimg_1.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By 三白</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://hp-l.gitee.io/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/butterfly/js/utils.js"></script><script src="/butterfly/js/main.js"></script><script src="/butterfly/js/tw_cn.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'nJwtgiPoYEggJJ9flfORgteX-gzGzoHsz',
+      appKey: 'TvpM4ndN7we13qkshrrMuPmz',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: 'https://njwtgipo.lc-cn-n1-shared.com',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://hp-l.gitee.io/js/valine.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>function electric_clock_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-clock"> <!-- 挂载容器 --> <div class="card-glass"> <div class="card-background"> <div class="card-content"> <div id="hexo_electric_clock"> <img id="card-clock-loading" src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading" class="entered loading" /> </div> </div> </div> </div> </div>';
+                console.log('已挂载electric_clock')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            electric_clock_injector_config()
+        } </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax  src="https://cdn.jsdelivr.net/gh/Zfour/hexo-electric-clock@1.0.6/clock.js"></script><!-- hexo injector body_end end --></body></html>
