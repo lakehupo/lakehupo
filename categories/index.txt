@@ -1,13 +1,1 @@
----
-index: true
-title: 所有分类
-type: category
-layout: "categories"
-top_img: https://hp-l.github.io/gallery/index/featureimages/12.jpg
----
-{% folding cyan, 电路原理 %}
 
-<!--[本科课程](/categories/本科课程/)-->
-<!--[计算机语言](/categories/计算机语言/)-->
-
-{% endfolding %}
